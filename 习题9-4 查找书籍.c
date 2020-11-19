@@ -30,6 +30,8 @@
 // 执行gets后，\n不会留在缓冲区中，即这时调用getchar得到的字符是'a'。
 // 执行scanf后，\n会留在缓冲区，这时调用getchar得到的字符是'\n'。
 // 综上：使用scanf,会在缓冲区留下一个多余的换行符
+// 要么在使用getchar或者scanf读入换行符，要么在使用scanf的时候就把换行符读进去。
+// 如下：scanf("%lf\n", &books[i].price);  
 
 #include<stdio.h>
 
@@ -64,4 +66,41 @@ int main()
     printf("%.2lf, %s\n",books[index_min].price,books[index_min].name);
     return 0;
 }
+
+
+// 第二种方法，直接读入换行
+/*
+#include<stdio.h>
+
+struct book_info
+{
+    char name[31];
+    double price;
+};
+
+int main()
+{
+    int n;
+    scanf("%d\n", &n);  // 直接读入换行
+    struct book_info books[10];
+    int index_max = 0, index_min = 0;
+    for (int i = 0; i < n;i++)
+    {
+        // 系统提示,gets并不安全,且被抛弃了
+        gets(books[i].name);  // 读入字符串,遇到换行结束
+        scanf("%lf\n", &books[i].price);  // 读入换行
+        if(books[i].price>books[index_max].price)
+        {
+            index_max = i;
+        }
+        if(books[i].price<books[index_min].price)
+        {
+            index_min = i;
+        }
+    }
+    printf("%.2lf, %s\n",books[index_max].price,books[index_max].name);
+    printf("%.2lf, %s\n",books[index_min].price,books[index_min].name);
+    return 0;
+}
+*/
 
